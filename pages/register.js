@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, gql } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
+import {useRouter} from 'next/router'
 
-const QUERY = gql`
-  query getProducts {
-    getProducts {
+const NEW_USER = gql`
+  mutation newUser($input: UserInput) {
+    newUser(input: $input) {
       id
       name
-      price
+      lastName
+      email
     }
   }
 `;
 
 const Register = () => {
-  const { data } = useQuery(QUERY);
-  console.log(data)
+  const [message, setMessage] = useState(null);
+  const [newUser] = useMutation(NEW_USER);
+  const router = useRouter()
 
   const formik = useFormik({
     initialValues: {
@@ -35,14 +38,41 @@ const Register = () => {
         .required('the field "Password" is required')
         .min(6, "the password must have at least 6 characters"),
     }),
-    onSubmit: (values) => {
-      console.log("...sending");
-      console.log(values);
+    onSubmit: async (values) => {
+      const { name, lastName, email, password } = values;
+      try {
+         await newUser({
+          variables: {
+            input: {
+              name,
+              lastName,
+              email,
+              password,
+            },
+          },
+        });
+        setMessage({ success: true, text: "User created succesfully" });
+        setTimeout(() => {
+          setMessage(null);
+          router.push('/login')
+        }, 3000);
+
+      } catch (error) {
+        setMessage({ success: false, text: error.message });
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      }
     },
   });
 
   return (
     <Layout>
+      {message ? (
+        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+          {message.text}
+        </div>
+      ) : null}
       <h1 className="text-center text-2xl text-white font-light">Register</h1>
       <div className="flex justify-center mt-t">
         <div className="w-full max-w-sm">
