@@ -6,7 +6,7 @@ import ReducerOrder from './ReducerOrder'
 const StateOrder = ({children}) => {
 
     const initialState = {
-        clients: [],
+        clients: {},
         product: [],
         total: 0
     }
