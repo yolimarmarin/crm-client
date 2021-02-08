@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import Select from 'react-select'
 import { gql, useQuery } from "@apollo/client";
+import ContextOrder from '../../context/orders/ContextOrder'
 
 const GET_CLIENTS_BY_SALESMAN = gql`
   query getClientsBySalesman {
@@ -15,17 +16,20 @@ const GET_CLIENTS_BY_SALESMAN = gql`
 
 const AssignClient = () =>{
 
-    const [clients, setClients] = useState([])
+    const [clients, setClients] = useState({})
+
+    const contextOrder = useContext(ContextOrder)
+    const { addClient } = contextOrder
 
     const { data, loading, error } = useQuery(GET_CLIENTS_BY_SALESMAN);
 
-    if (loading) return "Cargando...";
+    useEffect(()=>{
+      addClient(clients)
+    },[clients])
+    
+    if (loading) return <>Cargando...</>;
 
     const { getClientsBySalesman } = data
-
-    useEffect(()=>{
-        console.log(clients)
-    },[clients])
 
     const selectClients = (clients) =>{
         setClients(clients)
