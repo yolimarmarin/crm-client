@@ -27,7 +27,7 @@ const AssignClient = () =>{
       addClient(clients)
     },[clients])
     
-    if (loading) return <>Cargando...</>;
+    if (loading) return <>loading...</>;
 
     const { getClientsBySalesman } = data
 

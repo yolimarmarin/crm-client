@@ -19,14 +19,14 @@ const Home = () => {
   const router = useRouter();
   const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  if (loading) return "Cargando...";
+  if (loading) return "loading...";
 
   if (!data.getProducts) {
     return router.push("/login");
   }
 
   return loading ? (
-    <>cargando</>
+    <>loading</>
   ) : (
     <div>
       <Layout>
@@ -36,6 +36,8 @@ const Home = () => {
             New Product
           </a>
         </Link>
+        
+        <div className='overflow-x-scroll'>
         <table className="table-auto shadow-md mt-10 w-full w-lg">
           <thead className="bg-gray-800">
             <tr className="text-white">
@@ -52,6 +54,7 @@ const Home = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </Layout>
     </div>
   );

@@ -41,9 +41,15 @@ const Login = () => {
             },
           },
         });
-        const {token} = data.authUser
-        localStorage.setItem('token',token)
+
+        setTimeout(()=>{
+          const {token} = data.authUser
+          localStorage.setItem('token',token)
+        },1000)
+
+        setTimeout(()=>{
           router.push('/')
+        },2000)
 
       } catch (error) {
         setMessage({ success: false, text: error.message });

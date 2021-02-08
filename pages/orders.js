@@ -30,7 +30,7 @@ const Orders = () => {
 
   const { data, loading, error } = useQuery(GET_ORDERS_BY_SALESMAN);
 
-  if (loading) return "Cargando...";
+  if (loading) return "loading...";
 
   const { getOrdersBySalesman } = data
 

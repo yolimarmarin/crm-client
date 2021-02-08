@@ -28,7 +28,7 @@ const AssignProducts = () =>{
         addProducts(products)
       },[products])
     
-    if (loading) return <>Cargando...</>;
+    if (loading) return <>loading...</>;
 
     const { getProducts } = data
 
