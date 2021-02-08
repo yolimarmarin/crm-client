@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { setContext } from "apollo-link-context";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
+  uri: "https://gentle-bayou-92065.herokuapp.com/",
   fetch,
 });
 
@@ -13,6 +13,7 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
+      'Access-Control-Allow-Origin': '*',
     },
   };
 });
