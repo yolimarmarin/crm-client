@@ -5,6 +5,9 @@ import { setContext } from "apollo-link-context";
 const httpLink = createHttpLink({
   uri: "https://gentle-bayou-92065.herokuapp.com/",
   fetch,
+  fetchOptions:{
+    mode: 'no-cors',
+  }
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -21,6 +24,7 @@ const client = new ApolloClient({
   connectToDevTools: true,
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
+
 });
 
 export default client;
