@@ -1,12 +1,14 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import fetch from "node-fetch";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { setContext } from "apollo-link-context";
+import { createHttpLink } from 'apollo-link-http'
+import { fetch } from 'node-fetch'
 
 const httpLink = createHttpLink({
   uri: "https://gentle-bayou-92065.herokuapp.com/",
   fetch,
-  fetchOptions:{
-    mode: 'no-cors',
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': '*'
   }
 });
 
@@ -15,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
